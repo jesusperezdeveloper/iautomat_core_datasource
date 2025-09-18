@@ -1,0 +1,11 @@
+.dart_tool/
+.packages
+build/
+.pub-cache/
+.idea/
+.vscode/
+.flutter-plugins
+.flutter-plugins-dependencies
+.melos_tool/
+coverage/
+.DS_Store
