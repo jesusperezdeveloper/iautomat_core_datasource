@@ -20,4 +20,3 @@ class Internal {
   /// Crea una anotación para APIs internas.
   const Internal();
 }
-

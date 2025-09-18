@@ -33,12 +33,15 @@ void main() {
       expect(dataSource.streamDoc, isA<Function>());
     });
 
-    test('DeleteByQueryCapableDataSource should compile with delete operations', () {
-      final dataSource = FakeDeleteByQueryCapableDataSource<String>();
+    test(
+      'DeleteByQueryCapableDataSource should compile with delete operations',
+      () {
+        final dataSource = FakeDeleteByQueryCapableDataSource<String>();
 
-      // Verificar que todos los métodos existen
-      expect(dataSource.deleteByQuery, isA<Function>());
-    });
+        // Verificar que todos los métodos existen
+        expect(dataSource.deleteByQuery, isA<Function>());
+      },
+    );
 
     test('Combined capabilities should work together', () {
       final dataSource = FakeCombinedDataSource<String>();
@@ -53,7 +56,10 @@ void main() {
     test('Result types should be correctly exposed', () {
       // Verificar que los tipos Result están disponibles
       expect(const Result.success('test'), isA<Result<String>>());
-      expect(const Result<String>.failure(NetworkFailure(message: 'test')), isA<Result<String>>());
+      expect(
+        const Result<String>.failure(NetworkFailure(message: 'test')),
+        isA<Result<String>>(),
+      );
 
       // Verificar que los tipos DsFailure están disponibles
       expect(const NetworkFailure(message: 'test'), isA<DsFailure>());
@@ -115,20 +121,24 @@ class FakeStreamingDataSource<T> implements StreamingDataSource<T> {
 }
 
 /// Implementación fake para DeleteByQueryCapableDataSource
-class FakeDeleteByQueryCapableDataSource<T> implements DeleteByQueryCapableDataSource<T> {
+class FakeDeleteByQueryCapableDataSource<T>
+    implements DeleteByQueryCapableDataSource<T> {
   @override
   Future<Result<int>> deleteByQuery(Map<String, dynamic> criteria) {
     throw UnimplementedError();
   }
+
+  @override
+  bool get supportsDeleteByQuery => true;
 }
 
 /// Implementación fake combinada que implementa todas las capacidades
-class FakeCombinedDataSource<T> implements
-    GenericDataSource<T>,
-    SearchCapableDataSource<T>,
-    StreamingDataSource<T>,
-    DeleteByQueryCapableDataSource<T> {
-
+class FakeCombinedDataSource<T>
+    implements
+        GenericDataSource<T>,
+        SearchCapableDataSource<T>,
+        StreamingDataSource<T>,
+        DeleteByQueryCapableDataSource<T> {
   @override
   Future<Result<T?>> getById(String id) {
     throw UnimplementedError();
@@ -176,4 +186,7 @@ class FakeCombinedDataSource<T> implements
   Future<Result<int>> deleteByQuery(Map<String, dynamic> criteria) {
     throw UnimplementedError();
   }
+
+  @override
+  bool get supportsDeleteByQuery => true;
 }

@@ -54,7 +54,9 @@ abstract class TransactionContext {
   /// [name] es el nombre único del punto de guardado.
   ///
   /// Nota: No todos los backends soportan puntos de guardado.
-  @Experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
+  @Experimental(
+    'Los puntos de guardado pueden no estar soportados en todos los backends',
+  )
   Future<Result<void>> savepoint(String name);
 
   /// Revierte la transacción hasta un punto de guardado específico.
@@ -62,7 +64,9 @@ abstract class TransactionContext {
   /// [name] es el nombre del punto de guardado al cual revertir.
   ///
   /// Nota: No todos los backends soportan puntos de guardado.
-  @Experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
+  @Experimental(
+    'Los puntos de guardado pueden no estar soportados en todos los backends',
+  )
   Future<Result<void>> rollbackTo(String name);
 
   /// Obtiene información sobre la transacción actual.
@@ -71,7 +75,6 @@ abstract class TransactionContext {
 
 /// Información sobre una transacción en curso.
 class TransactionInfo {
-
   /// Crea información de transacción.
   const TransactionInfo({
     required this.id,
@@ -79,6 +82,7 @@ class TransactionInfo {
     this.isReadOnly = false,
     this.metadata = const {},
   });
+
   /// ID único de la transacción.
   final String id;
 
@@ -95,7 +99,8 @@ class TransactionInfo {
   Duration get elapsed => DateTime.now().difference(startTime);
 
   @override
-  String toString() => 'TransactionInfo(id: $id, elapsed: ${elapsed.inMilliseconds}ms)';
+  String toString() =>
+      'TransactionInfo(id: $id, elapsed: ${elapsed.inMilliseconds}ms)';
 }
 
 /// Contrato para operaciones batch (lote) sin garantías transaccionales.
@@ -109,27 +114,22 @@ class TransactionInfo {
 /// pueden mapear internamente a este sistema de batches para optimizar
 /// el rendimiento, especialmente en backends que soportan operaciones
 /// bulk nativas.
-abstract class BatchDataSource {
-  /// Ejecuta múltiples operaciones como un lote.
-  ///
-  /// [operations] es la lista de operaciones a ejecutar.
-  ///
-  /// Retorna [Result.success] con [BatchResult] que contiene
-  /// información sobre las operaciones exitosas y fallidas,
-  /// o [Result.failure] si toda la operación batch falla.
-  Future<Result<BatchResult>> runBatch(
-    List<BatchOperation> operations,
-  );
-}
+///
+/// Ejecuta múltiples operaciones como un lote.
+///
+/// [operations] es la lista de operaciones a ejecutar.
+///
+/// Retorna [Result.success] con [BatchResult] que contiene
+/// información sobre las operaciones exitosas y fallidas,
+/// o [Result.failure] si toda la operación batch falla.
+typedef RunBatch =
+    Future<Result<BatchResult>> Function(List<BatchOperation> operations);
 
 /// Operación individual dentro de un batch.
 abstract class BatchOperation {
-
   /// Crea una operación batch.
-  const BatchOperation({
-    required this.operationId,
-    required this.type,
-  });
+  const BatchOperation({required this.operationId, required this.type});
+
   /// ID único de la operación dentro del batch.
   final String operationId;
 
@@ -141,23 +141,26 @@ abstract class BatchOperation {
 enum BatchOperationType {
   /// Operación de creación.
   create,
+
   /// Operación de actualización.
   update,
+
   /// Operación de eliminación.
   delete,
+
   /// Operación de upsert.
   upsert,
 }
 
 /// Resultado de una operación batch.
 class BatchResult {
-
   /// Crea un resultado batch.
   const BatchResult({
     required this.successful,
     required this.failed,
     required this.total,
   });
+
   /// Operaciones que se ejecutaron exitosamente.
   final List<String> successful;
 
@@ -186,4 +189,3 @@ class BatchResult {
   String toString() =>
       'BatchResult(successful: $successCount, failed: $failureCount, total: $total)';
 }
-

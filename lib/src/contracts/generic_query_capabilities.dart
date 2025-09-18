@@ -16,10 +16,7 @@ abstract class GenericQueryDataSource<T> {
   ///
   /// Retorna [Result.success] con la lista de entidades que coinciden
   /// con la consulta (puede estar vacía) o [Result.failure] si ocurre un error.
-  Future<Result<List<T>>> query(
-    QuerySpec spec, {
-    int? limit,
-  });
+  Future<Result<List<T>>> query(QuerySpec spec, {int? limit});
 
   /// Ejecuta una consulta paginada y retorna una página de resultados.
   ///
@@ -104,7 +101,6 @@ abstract class RealtimeQueryDataSource<T> {
 
 /// Representa un cambio individual en una consulta.
 class QueryChange<T> {
-
   /// Crea un cambio de consulta.
   const QueryChange({
     required this.type,
@@ -115,29 +111,26 @@ class QueryChange<T> {
 
   /// Crea un cambio de adición.
   QueryChange.added(T entity, int index)
-      : this(
-          type: ChangeType.added,
-          entity: entity,
-          newIndex: index,
-        );
+    : this(type: ChangeType.added, entity: entity, newIndex: index);
 
   /// Crea un cambio de modificación.
   QueryChange.modified(T entity, int oldIndex, int newIndex)
-      : this(
-          type: ChangeType.modified,
-          entity: entity,
-          oldIndex: oldIndex,
-          newIndex: newIndex,
-        );
+    : this(
+        type: ChangeType.modified,
+        entity: entity,
+        oldIndex: oldIndex,
+        newIndex: newIndex,
+      );
 
   /// Crea un cambio de eliminación.
   QueryChange.removed(T entity, int oldIndex)
-      : this(
-          type: ChangeType.removed,
-          entity: entity,
-          newIndex: -1,
-          oldIndex: oldIndex,
-        );
+    : this(
+        type: ChangeType.removed,
+        entity: entity,
+        newIndex: -1,
+        oldIndex: oldIndex,
+      );
+
   /// Tipo de cambio.
   final ChangeType type;
 
@@ -165,4 +158,3 @@ enum ChangeType {
   /// Entidad eliminada de la consulta.
   removed,
 }
-

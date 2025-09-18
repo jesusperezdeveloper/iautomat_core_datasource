@@ -1,6 +1,6 @@
 name: iaut_core_datasource
 description: "Contratos puros para data sources desacoplados. Proporciona tipos, interfaces y utilidades para implementar backends de datos sin acoplarse a tecnologías específicas."
-version: 2.0.0
+version: 2.0.1
 publish_to: "none"
 
 environment:

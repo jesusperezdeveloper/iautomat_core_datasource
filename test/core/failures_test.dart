@@ -14,14 +14,20 @@ void main() {
       const failure = TimeoutFailure();
 
       expect(failure.message, equals('Tiempo de espera agotado'));
-      expect(failure.toString(), equals('TimeoutFailure: Tiempo de espera agotado'));
+      expect(
+        failure.toString(),
+        equals('TimeoutFailure: Tiempo de espera agotado'),
+      );
     });
 
     test('PermissionDeniedFailure should have custom message', () {
       const failure = PermissionDeniedFailure(message: 'Access denied');
 
       expect(failure.message, equals('Access denied'));
-      expect(failure.toString(), equals('PermissionDeniedFailure: Access denied'));
+      expect(
+        failure.toString(),
+        equals('PermissionDeniedFailure: Access denied'),
+      );
     });
 
     test('NotFoundFailure should work correctly', () {
@@ -42,21 +48,30 @@ void main() {
       const failure = SerializationFailure(message: 'JSON parse error');
 
       expect(failure.message, equals('JSON parse error'));
-      expect(failure.toString(), equals('SerializationFailure: JSON parse error'));
+      expect(
+        failure.toString(),
+        equals('SerializationFailure: JSON parse error'),
+      );
     });
 
     test('CancelledFailure should work correctly', () {
       const failure = CancelledFailure(message: 'Operation cancelled');
 
       expect(failure.message, equals('Operation cancelled'));
-      expect(failure.toString(), equals('CancelledFailure: Operation cancelled'));
+      expect(
+        failure.toString(),
+        equals('CancelledFailure: Operation cancelled'),
+      );
     });
 
     test('UnknownFailure should work correctly', () {
       const failure = UnknownFailure(message: 'Something went wrong');
 
       expect(failure.message, equals('Something went wrong'));
-      expect(failure.toString(), equals('UnknownFailure: Something went wrong'));
+      expect(
+        failure.toString(),
+        equals('UnknownFailure: Something went wrong'),
+      );
     });
 
     test('should handle cause and stackTrace', () {

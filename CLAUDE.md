@@ -97,3 +97,5 @@ El proyecto incluye GitHub Actions que ejecutan:
 - Tests (`dart test`)
 - Verificación de formato (`dart format`)
 - Verificación de publicación (`dart pub publish --dry-run`)
+- Es fundamental que escribas código 100% libre de warnings, aunque no afecte a la funcionalidad.
+- Escribe código optimizado para Flutter 3.35.3 y para Dart 3.9.2

@@ -121,7 +121,6 @@ abstract class CompressedDataSource {
 /// Proporciona una manera unificada de consultar las capacidades
 /// sin necesidad de hacer múltiples verificaciones instanceof.
 class DataSourceCapabilities {
-
   /// Crea información de capacidades.
   const DataSourceCapabilities({
     this.isReadOnly = false,
@@ -137,26 +136,25 @@ class DataSourceCapabilities {
   });
 
   /// Crea capacidades para un data source de solo lectura.
-  const DataSourceCapabilities.readOnly()
-      : this(isReadOnly: true);
+  const DataSourceCapabilities.readOnly() : this(isReadOnly: true);
 
   /// Crea capacidades para un data source en tiempo real.
-  const DataSourceCapabilities.realtime()
-      : this(supportsRealtime: true);
+  const DataSourceCapabilities.realtime() : this(supportsRealtime: true);
 
   /// Crea capacidades completas (todas las funcionalidades).
   const DataSourceCapabilities.full()
-      : this(
-          supportsRealtime: true,
-          supportsFullTextSearch: true,
-          supportsOffline: true,
-          supportsCache: true,
-          supportsVersioning: true,
-          supportsAudit: true,
-          supportsSoftDelete: true,
-          supportsEncryption: true,
-          supportsCompression: true,
-        );
+    : this(
+        supportsRealtime: true,
+        supportsFullTextSearch: true,
+        supportsOffline: true,
+        supportsCache: true,
+        supportsVersioning: true,
+        supportsAudit: true,
+        supportsSoftDelete: true,
+        supportsEncryption: true,
+        supportsCompression: true,
+      );
+
   /// Indica si soporta operaciones de solo lectura.
   final bool isReadOnly;
 
@@ -210,4 +208,3 @@ abstract class CapabilityAware {
   /// Obtiene las capacidades de este data source.
   DataSourceCapabilities get capabilities;
 }
-

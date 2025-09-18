@@ -100,16 +100,15 @@ abstract class Result<T> {
 /// Representa un resultado exitoso.
 @sealed
 class Success<T> extends Result<T> {
-
   /// Crea un resultado exitoso con el [value] proporcionado.
   const Success(this.value);
+
   /// El valor del resultado exitoso.
   final T value;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Success<T> && value == other.value);
+      identical(this, other) || (other is Success<T> && value == other.value);
 
   @override
   int get hashCode => value.hashCode;
@@ -121,9 +120,9 @@ class Success<T> extends Result<T> {
 /// Representa un resultado fallido.
 @sealed
 class Failure<T> extends Result<T> {
-
   /// Crea un resultado fallido con el [failure] proporcionado.
   const Failure(this.failure);
+
   /// El fallo que causó el resultado fallido.
   final DsFailure failure;
 
@@ -138,5 +137,3 @@ class Failure<T> extends Result<T> {
   @override
   String toString() => 'Failure($failure)';
 }
-
-

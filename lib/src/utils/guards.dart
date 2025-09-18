@@ -27,7 +27,11 @@ String requireNonEmpty(String? value, {String name = 'value'}) {
 /// Lanza [ArgumentError] si es null, vacío o solo espacios.
 String requireNonBlank(String? value, {String name = 'value'}) {
   if (value == null || value.trim().isEmpty) {
-    throw ArgumentError.value(value, name, 'No puede ser null, vacío o solo espacios');
+    throw ArgumentError.value(
+      value,
+      name,
+      'No puede ser null, vacío o solo espacios',
+    );
   }
   return value.trim();
 }
@@ -119,11 +123,7 @@ T requireNonNull<T>(T? value, {String name = 'value'}) {
 ///
 /// Retorna el ID trimmed si es válido.
 /// Lanza [ArgumentError] si no cumple con los criterios.
-String requireValidId(
-  String? id, {
-  RegExp? pattern,
-  String name = 'id',
-}) {
+String requireValidId(String? id, {RegExp? pattern, String name = 'id'}) {
   final validId = requireNonBlank(id, name: name);
 
   if (pattern != null && !pattern.hasMatch(validId)) {
@@ -179,7 +179,11 @@ String requireValidEmail(String? email, {String name = 'email'}) {
   final emailPattern = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
 
   if (!emailPattern.hasMatch(validEmail)) {
-    throw ArgumentError.value(email, name, 'No tiene un formato de email válido');
+    throw ArgumentError.value(
+      email,
+      name,
+      'No tiene un formato de email válido',
+    );
   }
 
   return validEmail.toLowerCase();
@@ -198,19 +202,20 @@ void requireAll(List<void Function()> conditions) {
   for (final condition in conditions) {
     try {
       condition();
-    } on ArgumentError catch (e) {
-      errors.add(e.message?.toString() ?? e.toString());
+    } on Exception catch (e) {
+      errors.add(e.toString());
     }
   }
 
   if (errors.isNotEmpty) {
-    throw ArgumentError('Múltiples errores de validación: ${errors.join(', ')}');
+    throw ArgumentError(
+      'Múltiples errores de validación: ${errors.join(', ')}',
+    );
   }
 }
 
 /// Clase para construcción fluida de validaciones.
 class Validator<T> {
-
   Validator._(this._value, this._name);
   final T _value;
   final String _name;
@@ -221,33 +226,29 @@ class Validator<T> {
   }
 
   /// Valida que el valor no sea null.
-  Validator<T> notNull() {
+  void notNull() {
     requireNonNull(_value, name: _name);
-    return this;
   }
 
   /// Valida que el string no esté vacío (solo para strings).
-  Validator<T> notEmpty() {
+  void notEmpty() {
     if (_value is String) {
       requireNonEmpty(_value as String, name: _name);
     }
-    return this;
   }
 
   /// Valida que el número sea positivo (solo para números).
-  Validator<T> positive() {
+  void positive() {
     if (_value is int) {
       requirePositive(_value as int, name: _name);
     }
-    return this;
   }
 
   /// Aplica una validación personalizada.
-  Validator<T> custom(bool Function(T) predicate, String message) {
+  void custom(bool Function(T) predicate, String message) {
     if (!predicate(_value)) {
       throw ArgumentError.value(_value, _name, message);
     }
-    return this;
   }
 
   /// Retorna el valor validado.

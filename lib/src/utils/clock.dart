@@ -19,19 +19,11 @@ abstract class Clock {
   static Clock get system => _SystemClock();
 
   /// Instancia actual del reloj (puede ser sobrescrita para testing).
-  static Clock _current = system;
-
-  /// Obtiene la instancia actual del reloj.
-  static Clock get current => _current;
-
-  /// Establece la instancia del reloj (útil para testing).
-  static void setCurrent(Clock clock) {
-    _current = clock;
-  }
+  static Clock current = system;
 
   /// Restablece el reloj al sistema por defecto.
   static void reset() {
-    _current = system;
+    current = system;
   }
 }
 
@@ -52,7 +44,6 @@ class _SystemClock implements Clock {
 
 /// Implementación de reloj fijo para testing.
 class FixedClock implements Clock {
-
   /// Crea un reloj fijo con el tiempo especificado.
   const FixedClock(this._fixedTime);
 
@@ -61,7 +52,7 @@ class FixedClock implements Clock {
 
   /// Crea un reloj fijo con una fecha específica.
   FixedClock.fromDate(int year, [int month = 1, int day = 1])
-      : _fixedTime = DateTime(year, month, day);
+    : _fixedTime = DateTime(year, month, day);
   final DateTime _fixedTime;
 
   @override
@@ -79,7 +70,6 @@ class FixedClock implements Clock {
 
 /// Implementación de reloj que avanza manualmente para testing.
 class ManualClock implements Clock {
-
   /// Crea un reloj manual con el tiempo inicial especificado.
   ManualClock(this._currentTime);
 
@@ -88,7 +78,7 @@ class ManualClock implements Clock {
 
   /// Crea un reloj manual desde una fecha específica.
   ManualClock.fromDate(int year, [int month = 1, int day = 1])
-      : _currentTime = DateTime(year, month, day);
+    : _currentTime = DateTime(year, month, day);
   DateTime _currentTime;
 
   @override
@@ -113,9 +103,13 @@ class ManualClock implements Clock {
     _currentTime = _currentTime.subtract(duration);
   }
 
-  /// Establece el tiempo a un valor específico.
-  void setTime(DateTime time) {
-    _currentTime = time;
+  /// Ajusta el reloj a un tiempo específico.
+  void adjustTo(DateTime time) {
+    if (time.isUtc) {
+      _currentTime = time.toLocal();
+    } else {
+      _currentTime = time;
+    }
   }
 
   /// Avanza el reloj al siguiente día.

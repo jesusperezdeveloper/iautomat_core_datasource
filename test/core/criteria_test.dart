@@ -5,8 +5,8 @@ void main() {
     test('should validate simple criteria structure', () {
       final criteria = {
         'where': [
-          {'field': 'status', 'op': '==', 'value': 'active'}
-        ]
+          {'field': 'status', 'op': '==', 'value': 'active'},
+        ],
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
@@ -25,10 +25,10 @@ void main() {
       final criteria = {
         'where': [
           {'field': 'country', 'op': '==', 'value': 'Spain'},
-          {'field': 'members', 'op': '>', 'value': 50}
+          {'field': 'members', 'op': '>', 'value': 50},
         ],
         'orderBy': {'field': 'createdAt', 'direction': 'desc'},
-        'limit': 10
+        'limit': 10,
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
@@ -49,11 +49,11 @@ void main() {
     test('should validate criteria with pagination', () {
       final criteria = {
         'where': [
-          {'field': 'category', 'op': '==', 'value': 'premium'}
+          {'field': 'category', 'op': '==', 'value': 'premium'},
         ],
         'orderBy': {'field': 'name', 'direction': 'asc'},
         'limit': 20,
-        'cursor': {'startAfter': 'club_42'}
+        'cursor': {'startAfter': 'club_42'},
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
@@ -65,19 +65,27 @@ void main() {
 
     test('should validate supported operators', () {
       final supportedOperators = [
-        '==', '!=', '>', '>=', '<', '<=',
-        'in', 'array-contains', 'array-contains-any'
+        '==',
+        '!=',
+        '>',
+        '>=',
+        '<',
+        '<=',
+        'in',
+        'array-contains',
+        'array-contains-any',
       ];
 
       for (final operator in supportedOperators) {
         final criteria = {
           'where': [
-            {'field': 'testField', 'op': operator, 'value': 'testValue'}
-          ]
+            {'field': 'testField', 'op': operator, 'value': 'testValue'},
+          ],
         };
 
         expect(criteria, isA<Map<String, dynamic>>());
-        final condition = (criteria['where']! as List<dynamic>).first as Map<String, dynamic>;
+        final condition =
+            (criteria['where']! as List<dynamic>).first as Map<String, dynamic>;
         expect(condition['op'], equals(operator));
       }
     });
@@ -85,9 +93,9 @@ void main() {
     test('should validate criteria with select fields', () {
       final criteria = {
         'where': [
-          {'field': 'status', 'op': '==', 'value': 'active'}
+          {'field': 'status', 'op': '==', 'value': 'active'},
         ],
-        'select': ['id', 'name', 'email']
+        'select': ['id', 'name', 'email'],
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
@@ -102,23 +110,34 @@ void main() {
     test('should validate array operators with list values', () {
       final criteriaIn = {
         'where': [
-          {'field': 'category', 'op': 'in', 'value': ['premium', 'gold', 'silver']}
-        ]
+          {
+            'field': 'category',
+            'op': 'in',
+            'value': ['premium', 'gold', 'silver'],
+          },
+        ],
       };
 
       final criteriaArrayContainsAny = {
         'where': [
-          {'field': 'tags', 'op': 'array-contains-any', 'value': ['flutter', 'dart']}
-        ]
+          {
+            'field': 'tags',
+            'op': 'array-contains-any',
+            'value': ['flutter', 'dart'],
+          },
+        ],
       };
 
       expect(criteriaIn, isA<Map<String, dynamic>>());
       expect(criteriaArrayContainsAny, isA<Map<String, dynamic>>());
 
-      final conditionIn = (criteriaIn['where']! as List<dynamic>).first as Map<String, dynamic>;
+      final conditionIn =
+          (criteriaIn['where']! as List<dynamic>).first as Map<String, dynamic>;
       expect(conditionIn['value'], isA<List<dynamic>>());
 
-      final conditionArray = (criteriaArrayContainsAny['where']! as List<dynamic>).first as Map<String, dynamic>;
+      final conditionArray =
+          (criteriaArrayContainsAny['where']! as List<dynamic>).first
+              as Map<String, dynamic>;
       expect(conditionArray['value'], isA<List<dynamic>>());
     });
 
@@ -148,9 +167,9 @@ void main() {
       for (final cursorType in cursorTypes) {
         final criteria = {
           'where': [
-            {'field': 'status', 'op': '==', 'value': 'active'}
+            {'field': 'status', 'op': '==', 'value': 'active'},
           ],
-          'cursor': cursorType
+          'cursor': cursorType,
         };
 
         expect(criteria, isA<Map<String, dynamic>>());

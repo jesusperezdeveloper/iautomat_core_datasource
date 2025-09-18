@@ -22,13 +22,13 @@ typedef IdExtractor<T> = String? Function(T value);
 /// Proporciona una manera conveniente de agrupar las funciones
 /// de conversión para un tipo específico.
 class JsonAdapter<T> {
-
   /// Crea un adaptador JSON con las funciones proporcionadas.
   const JsonAdapter({
     required this.fromJson,
     required this.toJson,
     this.idExtractor,
   });
+
   /// Función para convertir de JSON al tipo [T].
   final FromJson<T> fromJson;
 
@@ -49,10 +49,7 @@ class JsonAdapter<T> {
 
   /// Convierte una lista de JSON al tipo [List<T>].
   List<T> fromJsonList(List<dynamic> jsonList) {
-    return jsonList
-        .cast<Map<String, dynamic>>()
-        .map(fromJson)
-        .toList();
+    return jsonList.cast<Map<String, dynamic>>().map(fromJson).toList();
   }
 
   /// Convierte una lista del tipo [T] a una lista de JSON.

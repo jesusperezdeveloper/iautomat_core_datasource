@@ -9,13 +9,9 @@ import 'package:meta/meta.dart';
 @sealed
 @immutable
 abstract class DsFailure {
-
   /// Crea una instancia de DsFailure.
-  const DsFailure({
-    required this.message,
-    this.cause,
-    this.stackTrace,
-  });
+  const DsFailure({required this.message, this.cause, this.stackTrace});
+
   /// Mensaje descriptivo del fallo.
   final String message;
 
@@ -148,4 +144,3 @@ class UnknownFailure extends DsFailure {
   @override
   String toString() => 'UnknownFailure: $message';
 }
-

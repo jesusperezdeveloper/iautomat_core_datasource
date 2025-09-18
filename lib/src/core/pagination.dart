@@ -7,7 +7,6 @@ import 'package:meta/meta.dart';
 /// interno es específico del backend utilizado.
 @immutable
 class PageCursor {
-
   /// Crea un cursor con el [value] proporcionado.
   const PageCursor(this.value);
 
@@ -15,6 +14,7 @@ class PageCursor {
   factory PageCursor.fromMap(Map<String, dynamic> map) {
     return PageCursor(map['value'] as String);
   }
+
   /// Valor opaco del cursor.
   final String value;
 
@@ -25,8 +25,7 @@ class PageCursor {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is PageCursor && value == other.value);
+      identical(this, other) || (other is PageCursor && value == other.value);
 
   @override
   int get hashCode => value.hashCode;
@@ -41,7 +40,6 @@ class PageCursor {
 /// un cursor para navegar a la siguiente página.
 @immutable
 class Page<T> {
-
   /// Crea una página con los parámetros proporcionados.
   const Page({
     required this.items,
@@ -54,21 +52,21 @@ class Page<T> {
 
   /// Crea una página vacía.
   const Page.empty()
-      : items = const [],
-        nextCursor = null,
-        previousCursor = null,
-        hasNext = false,
-        hasPrevious = false,
-        totalSize = 0;
+    : items = const [],
+      nextCursor = null,
+      previousCursor = null,
+      hasNext = false,
+      hasPrevious = false,
+      totalSize = 0;
 
   /// Crea una página única con todos los elementos.
-  const Page.single(List<T> items)
-      : items = items,
-        nextCursor = null,
-        previousCursor = null,
-        hasNext = false,
-        hasPrevious = false,
-        totalSize = items.length;
+  const Page.single(this.items)
+    : nextCursor = null,
+      previousCursor = null,
+      hasNext = false,
+      hasPrevious = false,
+      totalSize = null;
+
   /// Elementos de la página actual.
   final List<T> items;
 
@@ -134,13 +132,13 @@ class Page<T> {
 
   @override
   int get hashCode => Object.hash(
-        items,
-        nextCursor,
-        previousCursor,
-        hasNext,
-        hasPrevious,
-        totalSize,
-      );
+    items,
+    nextCursor,
+    previousCursor,
+    hasNext,
+    hasPrevious,
+    totalSize,
+  );
 
   @override
   String toString() =>

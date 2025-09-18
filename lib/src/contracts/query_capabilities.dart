@@ -37,4 +37,3 @@ abstract class DeleteByQueryCapableDataSource<T> {
   /// Indica si este data source soporta eliminación por query.
   bool get supportsDeleteByQuery => true;
 }
-

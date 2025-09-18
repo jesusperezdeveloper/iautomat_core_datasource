@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.1
+
+### 🔧 Correcciones
+- **Calidad de código**: Eliminados todos los warnings de análisis estático
+- **Formateo**: Aplicado dart format a todo el proyecto
+- **Linting**: Cumplimiento 100% con very_good_analysis
+- **API Clock**: Mejorado método `adjustTo()` para manejar timezones UTC/local
+- **Tests**: Corregidas implementaciones faltantes en surface tests
+- **Documentación**: Actualizadas instrucciones para código libre de warnings
+
 ## 2.0.0
 
 ### 🔄 Cambios Importantes (BREAKING CHANGES)
