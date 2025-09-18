@@ -8,8 +8,8 @@ environment:
   flutter: ">=3.22.0"
 
 dependencies:
-  meta: ^1.15.0
   collection: ^1.18.0
+  meta: ^1.15.0
 
 dev_dependencies:
   test: ^1.25.8

@@ -1,4 +1,4 @@
-import '../core/result.dart';
+import 'package:iaut_core_datasource/src/core/result.dart';
 
 /// Contrato básico para operaciones de lectura y existencia en un data source genérico.
 ///

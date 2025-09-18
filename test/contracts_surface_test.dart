@@ -52,7 +52,7 @@ void main() {
 
     test('Result types should be correctly exposed', () {
       // Verificar que los tipos Result están disponibles
-      expect(Result.success('test'), isA<Result<String>>());
+      expect(const Result.success('test'), isA<Result<String>>());
       expect(const Result<String>.failure(NetworkFailure(message: 'test')), isA<Result<String>>());
 
       // Verificar que los tipos DsFailure están disponibles

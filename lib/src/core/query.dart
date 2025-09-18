@@ -1,7 +1,6 @@
-import 'package:meta/meta.dart';
 import 'package:collection/collection.dart';
-
-import 'pagination.dart';
+import 'package:iaut_core_datasource/src/core/pagination.dart';
+import 'package:meta/meta.dart';
 
 /// Operadores de comparación para consultas.
 enum QueryOperator {
@@ -36,14 +35,6 @@ enum OrderDirection {
 /// Condición WHERE para consultas.
 @immutable
 class WhereCondition {
-  /// Campo a filtrar.
-  final String field;
-
-  /// Operador de comparación.
-  final QueryOperator operator;
-
-  /// Valor para la comparación.
-  final dynamic value;
 
   /// Crea una condición WHERE.
   const WhereCondition({
@@ -53,40 +44,48 @@ class WhereCondition {
   });
 
   /// Crea una condición de igualdad.
-  WhereCondition.equals(String field, dynamic value)
+  const WhereCondition.equals(String field, dynamic value)
       : this(field: field, operator: QueryOperator.eq, value: value);
 
   /// Crea una condición de no igualdad.
-  WhereCondition.notEquals(String field, dynamic value)
+  const WhereCondition.notEquals(String field, dynamic value)
       : this(field: field, operator: QueryOperator.ne, value: value);
 
   /// Crea una condición mayor que.
-  WhereCondition.greaterThan(String field, dynamic value)
+  const WhereCondition.greaterThan(String field, dynamic value)
       : this(field: field, operator: QueryOperator.gt, value: value);
 
   /// Crea una condición mayor o igual que.
-  WhereCondition.greaterThanOrEqual(String field, dynamic value)
+  const WhereCondition.greaterThanOrEqual(String field, dynamic value)
       : this(field: field, operator: QueryOperator.gte, value: value);
 
   /// Crea una condición menor que.
-  WhereCondition.lessThan(String field, dynamic value)
+  const WhereCondition.lessThan(String field, dynamic value)
       : this(field: field, operator: QueryOperator.lt, value: value);
 
   /// Crea una condición menor o igual que.
-  WhereCondition.lessThanOrEqual(String field, dynamic value)
+  const WhereCondition.lessThanOrEqual(String field, dynamic value)
       : this(field: field, operator: QueryOperator.lte, value: value);
 
   /// Crea una condición IN.
-  WhereCondition.whereIn(String field, List<dynamic> values)
+  const WhereCondition.whereIn(String field, List<dynamic> values)
       : this(field: field, operator: QueryOperator.isIn, value: values);
 
   /// Crea una condición array-contains.
-  WhereCondition.arrayContains(String field, dynamic value)
+  const WhereCondition.arrayContains(String field, dynamic value)
       : this(field: field, operator: QueryOperator.arrayContains, value: value);
 
   /// Crea una condición array-contains-any.
-  WhereCondition.arrayContainsAny(String field, List<dynamic> values)
+  const WhereCondition.arrayContainsAny(String field, List<dynamic> values)
       : this(field: field, operator: QueryOperator.arrayContainsAny, value: values);
+  /// Campo a filtrar.
+  final String field;
+
+  /// Operador de comparación.
+  final QueryOperator operator;
+
+  /// Valor para la comparación.
+  final dynamic value;
 
   @override
   bool operator ==(Object other) =>
@@ -110,11 +109,6 @@ class WhereCondition {
 /// Especificación de ordenamiento.
 @immutable
 class OrderBy {
-  /// Campo por el cual ordenar.
-  final String field;
-
-  /// Dirección del ordenamiento.
-  final OrderDirection direction;
 
   /// Crea una especificación de ordenamiento.
   const OrderBy({
@@ -123,10 +117,15 @@ class OrderBy {
   });
 
   /// Crea un ordenamiento ascendente.
-  OrderBy.asc(String field) : this(field: field, direction: OrderDirection.asc);
+  const OrderBy.asc(String field) : this(field: field, direction: OrderDirection.asc);
 
   /// Crea un ordenamiento descendente.
-  OrderBy.desc(String field) : this(field: field, direction: OrderDirection.desc);
+  const OrderBy.desc(String field) : this(field: field, direction: OrderDirection.desc);
+  /// Campo por el cual ordenar.
+  final String field;
+
+  /// Dirección del ordenamiento.
+  final OrderDirection direction;
 
   @override
   bool operator ==(Object other) =>
@@ -145,6 +144,24 @@ class OrderBy {
 /// Especificación completa de consulta.
 @immutable
 class QuerySpec {
+
+  /// Crea una especificación de consulta.
+  const QuerySpec({
+    this.where = const [],
+    this.orderBy = const [],
+    this.limit,
+    this.startAfter,
+    this.startAt,
+    this.endBefore,
+    this.endAt,
+    this.select,
+  }) : assert(limit == null || limit > 0, 'limit debe ser mayor que 0');
+
+  /// Crea una consulta vacía.
+  const QuerySpec.empty() : this();
+
+  /// Crea una consulta solo con límite.
+  const QuerySpec.limit(int limit) : this(limit: limit);
   /// Condiciones WHERE de la consulta.
   final List<WhereCondition> where;
 
@@ -168,24 +185,6 @@ class QuerySpec {
 
   /// Campos específicos a seleccionar (opcional).
   final List<String>? select;
-
-  /// Crea una especificación de consulta.
-  const QuerySpec({
-    this.where = const [],
-    this.orderBy = const [],
-    this.limit,
-    this.startAfter,
-    this.startAt,
-    this.endBefore,
-    this.endAt,
-    this.select,
-  }) : assert(limit == null || limit > 0, 'limit debe ser mayor que 0');
-
-  /// Crea una consulta vacía.
-  const QuerySpec.empty() : this();
-
-  /// Crea una consulta solo con límite.
-  QuerySpec.limit(int limit) : this(limit: limit);
 
   /// Agrega una condición WHERE a la consulta.
   QuerySpec addWhere(WhereCondition condition) {
@@ -272,25 +271,25 @@ class QuerySpec {
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is QuerySpec &&
-          const ListEquality().equals(where, other.where) &&
-          const ListEquality().equals(orderBy, other.orderBy) &&
+          const ListEquality<WhereCondition>().equals(where, other.where) &&
+          const ListEquality<OrderBy>().equals(orderBy, other.orderBy) &&
           limit == other.limit &&
           startAfter == other.startAfter &&
           startAt == other.startAt &&
           endBefore == other.endBefore &&
           endAt == other.endAt &&
-          const ListEquality().equals(select, other.select));
+          const ListEquality<String>().equals(select, other.select));
 
   @override
   int get hashCode => Object.hash(
-        const ListEquality().hash(where),
-        const ListEquality().hash(orderBy),
+        const ListEquality<WhereCondition>().hash(where),
+        const ListEquality<OrderBy>().hash(orderBy),
         limit,
         startAfter,
         startAt,
         endBefore,
         endAt,
-        const ListEquality().hash(select),
+        const ListEquality<String>().hash(select),
       );
 
   @override

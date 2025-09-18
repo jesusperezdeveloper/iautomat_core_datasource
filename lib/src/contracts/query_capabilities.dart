@@ -1,4 +1,4 @@
-import '../core/result.dart';
+import 'package:iaut_core_datasource/src/core/result.dart';
 
 /// Consultas basadas en un criteria flexible.
 /// El contrato no dicta interpretación; cada implementación lo traducirá a su backend.
@@ -29,5 +29,12 @@ abstract class StreamingDataSource<T> {
 /// Devuelve el número de elementos eliminados si el backend puede calcularlo;
 /// en caso contrario, puede devolver 0 o un estimado, documentado por la implementación.
 abstract class DeleteByQueryCapableDataSource<T> {
+  /// Elimina elementos que cumplan el criteria.
+  ///
+  /// Retorna el número de elementos eliminados o 0 si no se puede calcular.
   Future<Result<int>> deleteByQuery(Map<String, dynamic> criteria);
+
+  /// Indica si este data source soporta eliminación por query.
+  bool get supportsDeleteByQuery => true;
 }
+

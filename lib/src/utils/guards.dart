@@ -2,6 +2,7 @@
 ///
 /// Proporciona funciones helper para validar y normalizar
 /// parámetros comunes en operaciones de data source.
+library;
 
 /// Valida que un string no sea null ni vacío.
 ///
@@ -209,10 +210,10 @@ void requireAll(List<void Function()> conditions) {
 
 /// Clase para construcción fluida de validaciones.
 class Validator<T> {
-  final T _value;
-  final String _name;
 
   Validator._(this._value, this._name);
+  final T _value;
+  final String _name;
 
   /// Crea un validador para el valor dado.
   static Validator<T> of<T>(T value, {String name = 'value'}) {

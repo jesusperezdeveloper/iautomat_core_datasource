@@ -1,6 +1,6 @@
-import '../core/result.dart';
-import '../core/query.dart';
-import '../core/pagination.dart';
+import 'package:iaut_core_datasource/src/core/pagination.dart';
+import 'package:iaut_core_datasource/src/core/query.dart';
+import 'package:iaut_core_datasource/src/core/result.dart';
 
 /// Contrato para capacidades avanzadas de consulta y paginación.
 ///
@@ -90,28 +90,20 @@ abstract class RealtimeQueryDataSource<T> {
   ///
   /// [spec] especifica las condiciones de la consulta a observar.
   ///
-  /// A diferencia de [streamCollection], este stream emite eventos
+  /// A diferencia de streamCollection, este stream emite eventos
   /// de cambio específicos (añadido, modificado, eliminado) en lugar
   /// de toda la lista actualizada.
   ///
   /// Útil para optimizar actualizaciones en UI cuando trabajas
   /// con listas grandes.
   Stream<Result<QueryChange<T>>> streamQueryChanges(QuerySpec spec);
+
+  /// Indica si este data source soporta streaming de cambios.
+  bool get supportsQueryChanges => true;
 }
 
 /// Representa un cambio individual en una consulta.
 class QueryChange<T> {
-  /// Tipo de cambio.
-  final ChangeType type;
-
-  /// Entidad afectada por el cambio.
-  final T entity;
-
-  /// Índice anterior de la entidad (para movimientos).
-  final int? oldIndex;
-
-  /// Nuevo índice de la entidad.
-  final int newIndex;
 
   /// Crea un cambio de consulta.
   const QueryChange({
@@ -146,6 +138,17 @@ class QueryChange<T> {
           newIndex: -1,
           oldIndex: oldIndex,
         );
+  /// Tipo de cambio.
+  final ChangeType type;
+
+  /// Entidad afectada por el cambio.
+  final T entity;
+
+  /// Índice anterior de la entidad (para movimientos).
+  final int? oldIndex;
+
+  /// Nuevo índice de la entidad.
+  final int newIndex;
 
   @override
   String toString() => 'QueryChange($type, index: $newIndex)';
@@ -162,3 +165,4 @@ enum ChangeType {
   /// Entidad eliminada de la consulta.
   removed,
 }
+

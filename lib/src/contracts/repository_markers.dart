@@ -3,6 +3,7 @@
 /// Estos marcadores proporcionan una manera de identificar las capacidades
 /// y características específicas de los data sources sin acoplar la
 /// implementación a tecnologías específicas.
+library;
 
 /// Marcador para data sources de solo lectura.
 ///
@@ -120,35 +121,6 @@ abstract class CompressedDataSource {
 /// Proporciona una manera unificada de consultar las capacidades
 /// sin necesidad de hacer múltiples verificaciones instanceof.
 class DataSourceCapabilities {
-  /// Indica si soporta operaciones de solo lectura.
-  final bool isReadOnly;
-
-  /// Indica si soporta actualizaciones en tiempo real.
-  final bool supportsRealtime;
-
-  /// Indica si soporta búsqueda de texto completo.
-  final bool supportsFullTextSearch;
-
-  /// Indica si soporta operaciones offline.
-  final bool supportsOffline;
-
-  /// Indica si soporta cache local.
-  final bool supportsCache;
-
-  /// Indica si soporta versionado de entidades.
-  final bool supportsVersioning;
-
-  /// Indica si soporta auditoría.
-  final bool supportsAudit;
-
-  /// Indica si soporta borrado suave.
-  final bool supportsSoftDelete;
-
-  /// Indica si soporta encriptación.
-  final bool supportsEncryption;
-
-  /// Indica si soporta compresión.
-  final bool supportsCompression;
 
   /// Crea información de capacidades.
   const DataSourceCapabilities({
@@ -185,6 +157,35 @@ class DataSourceCapabilities {
           supportsEncryption: true,
           supportsCompression: true,
         );
+  /// Indica si soporta operaciones de solo lectura.
+  final bool isReadOnly;
+
+  /// Indica si soporta actualizaciones en tiempo real.
+  final bool supportsRealtime;
+
+  /// Indica si soporta búsqueda de texto completo.
+  final bool supportsFullTextSearch;
+
+  /// Indica si soporta operaciones offline.
+  final bool supportsOffline;
+
+  /// Indica si soporta cache local.
+  final bool supportsCache;
+
+  /// Indica si soporta versionado de entidades.
+  final bool supportsVersioning;
+
+  /// Indica si soporta auditoría.
+  final bool supportsAudit;
+
+  /// Indica si soporta borrado suave.
+  final bool supportsSoftDelete;
+
+  /// Indica si soporta encriptación.
+  final bool supportsEncryption;
+
+  /// Indica si soporta compresión.
+  final bool supportsCompression;
 
   @override
   String toString() {
@@ -209,3 +210,4 @@ abstract class CapabilityAware {
   /// Obtiene las capacidades de este data source.
   DataSourceCapabilities get capabilities;
 }
+

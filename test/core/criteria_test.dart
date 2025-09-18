@@ -10,9 +10,9 @@ void main() {
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
-      expect(criteria['where'], isA<List>());
+      expect(criteria['where'], isA<List<dynamic>>());
 
-      final whereConditions = criteria['where'] as List;
+      final whereConditions = criteria['where']! as List<dynamic>;
       expect(whereConditions.length, equals(1));
 
       final condition = whereConditions.first as Map<String, dynamic>;
@@ -32,14 +32,14 @@ void main() {
       };
 
       expect(criteria, isA<Map<String, dynamic>>());
-      expect(criteria['where'], isA<List>());
+      expect(criteria['where'], isA<List<dynamic>>());
       expect(criteria['orderBy'], isA<Map<String, dynamic>>());
       expect(criteria['limit'], isA<int>());
 
-      final whereConditions = criteria['where'] as List;
+      final whereConditions = criteria['where']! as List<dynamic>;
       expect(whereConditions.length, equals(2));
 
-      final orderBy = criteria['orderBy'] as Map<String, dynamic>;
+      final orderBy = criteria['orderBy']! as Map<String, dynamic>;
       expect(orderBy['field'], equals('createdAt'));
       expect(orderBy['direction'], equals('desc'));
 
@@ -59,7 +59,7 @@ void main() {
       expect(criteria, isA<Map<String, dynamic>>());
       expect(criteria['cursor'], isA<Map<String, dynamic>>());
 
-      final cursor = criteria['cursor'] as Map<String, dynamic>;
+      final cursor = criteria['cursor']! as Map<String, dynamic>;
       expect(cursor['startAfter'], equals('club_42'));
     });
 
@@ -77,7 +77,7 @@ void main() {
         };
 
         expect(criteria, isA<Map<String, dynamic>>());
-        final condition = (criteria['where'] as List).first as Map<String, dynamic>;
+        final condition = (criteria['where']! as List<dynamic>).first as Map<String, dynamic>;
         expect(condition['op'], equals(operator));
       }
     });
@@ -93,7 +93,7 @@ void main() {
       expect(criteria, isA<Map<String, dynamic>>());
       expect(criteria['select'], isA<List<String>>());
 
-      final selectFields = criteria['select'] as List<String>;
+      final selectFields = criteria['select']! as List<String>;
       expect(selectFields, contains('id'));
       expect(selectFields, contains('name'));
       expect(selectFields, contains('email'));
@@ -115,11 +115,11 @@ void main() {
       expect(criteriaIn, isA<Map<String, dynamic>>());
       expect(criteriaArrayContainsAny, isA<Map<String, dynamic>>());
 
-      final conditionIn = (criteriaIn['where'] as List).first as Map<String, dynamic>;
-      expect(conditionIn['value'], isA<List>());
+      final conditionIn = (criteriaIn['where']! as List<dynamic>).first as Map<String, dynamic>;
+      expect(conditionIn['value'], isA<List<dynamic>>());
 
-      final conditionArray = (criteriaArrayContainsAny['where'] as List).first as Map<String, dynamic>;
-      expect(conditionArray['value'], isA<List>());
+      final conditionArray = (criteriaArrayContainsAny['where']! as List<dynamic>).first as Map<String, dynamic>;
+      expect(conditionArray['value'], isA<List<dynamic>>());
     });
 
     test('should validate empty criteria', () {
@@ -156,7 +156,7 @@ void main() {
         expect(criteria, isA<Map<String, dynamic>>());
         expect(criteria['cursor'], isA<Map<String, dynamic>>());
 
-        final cursor = criteria['cursor'] as Map<String, dynamic>;
+        final cursor = criteria['cursor']! as Map<String, dynamic>;
         expect(cursor.keys.length, equals(1));
       }
     });

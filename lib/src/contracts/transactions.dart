@@ -1,5 +1,5 @@
-import '../core/result.dart';
-import '../core/annotations.dart';
+import 'package:iaut_core_datasource/src/core/annotations.dart';
+import 'package:iaut_core_datasource/src/core/result.dart';
 
 /// Contrato para operaciones transaccionales.
 ///
@@ -33,6 +33,9 @@ abstract class TransactionalDataSource {
   Future<Result<R>> runTransaction<R>(
     Future<R> Function(TransactionContext context) action,
   );
+
+  /// Indica si este data source soporta transacciones.
+  bool get supportsTransactions => true;
 }
 
 /// Contexto de transacción que proporciona acceso a operaciones
@@ -51,7 +54,7 @@ abstract class TransactionContext {
   /// [name] es el nombre único del punto de guardado.
   ///
   /// Nota: No todos los backends soportan puntos de guardado.
-  @experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
+  @Experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
   Future<Result<void>> savepoint(String name);
 
   /// Revierte la transacción hasta un punto de guardado específico.
@@ -59,7 +62,7 @@ abstract class TransactionContext {
   /// [name] es el nombre del punto de guardado al cual revertir.
   ///
   /// Nota: No todos los backends soportan puntos de guardado.
-  @experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
+  @Experimental('Los puntos de guardado pueden no estar soportados en todos los backends')
   Future<Result<void>> rollbackTo(String name);
 
   /// Obtiene información sobre la transacción actual.
@@ -68,6 +71,14 @@ abstract class TransactionContext {
 
 /// Información sobre una transacción en curso.
 class TransactionInfo {
+
+  /// Crea información de transacción.
+  const TransactionInfo({
+    required this.id,
+    required this.startTime,
+    this.isReadOnly = false,
+    this.metadata = const {},
+  });
   /// ID único de la transacción.
   final String id;
 
@@ -79,14 +90,6 @@ class TransactionInfo {
 
   /// Metadatos adicionales específicos del backend.
   final Map<String, dynamic> metadata;
-
-  /// Crea información de transacción.
-  const TransactionInfo({
-    required this.id,
-    required this.startTime,
-    this.isReadOnly = false,
-    this.metadata = const {},
-  });
 
   /// Duración transcurrida desde el inicio de la transacción.
   Duration get elapsed => DateTime.now().difference(startTime);
@@ -121,17 +124,17 @@ abstract class BatchDataSource {
 
 /// Operación individual dentro de un batch.
 abstract class BatchOperation {
-  /// ID único de la operación dentro del batch.
-  final String operationId;
-
-  /// Tipo de operación.
-  final BatchOperationType type;
 
   /// Crea una operación batch.
   const BatchOperation({
     required this.operationId,
     required this.type,
   });
+  /// ID único de la operación dentro del batch.
+  final String operationId;
+
+  /// Tipo de operación.
+  final BatchOperationType type;
 }
 
 /// Tipos de operación batch.
@@ -148,6 +151,13 @@ enum BatchOperationType {
 
 /// Resultado de una operación batch.
 class BatchResult {
+
+  /// Crea un resultado batch.
+  const BatchResult({
+    required this.successful,
+    required this.failed,
+    required this.total,
+  });
   /// Operaciones que se ejecutaron exitosamente.
   final List<String> successful;
 
@@ -156,13 +166,6 @@ class BatchResult {
 
   /// Número total de operaciones procesadas.
   final int total;
-
-  /// Crea un resultado batch.
-  const BatchResult({
-    required this.successful,
-    required this.failed,
-    required this.total,
-  });
 
   /// Número de operaciones exitosas.
   int get successCount => successful.length;
@@ -183,3 +186,4 @@ class BatchResult {
   String toString() =>
       'BatchResult(successful: $successCount, failed: $failureCount, total: $total)';
 }
+

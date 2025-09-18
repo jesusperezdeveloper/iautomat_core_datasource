@@ -1,6 +1,5 @@
+import 'package:iaut_core_datasource/src/core/failures.dart';
 import 'package:meta/meta.dart';
-
-import 'failures.dart';
 
 /// Representa el resultado de una operación que puede fallar.
 ///
@@ -8,7 +7,9 @@ import 'failures.dart';
 /// que pueden tener éxito o fallar, proporcionando una API funcional
 /// para manejar ambos casos de manera segura.
 @sealed
+@immutable
 abstract class Result<T> {
+  /// Crea una instancia de Result.
   const Result();
 
   /// Crea un resultado exitoso con el [value] proporcionado.
@@ -99,11 +100,11 @@ abstract class Result<T> {
 /// Representa un resultado exitoso.
 @sealed
 class Success<T> extends Result<T> {
-  /// El valor del resultado exitoso.
-  final T value;
 
   /// Crea un resultado exitoso con el [value] proporcionado.
   const Success(this.value);
+  /// El valor del resultado exitoso.
+  final T value;
 
   @override
   bool operator ==(Object other) =>
@@ -120,11 +121,11 @@ class Success<T> extends Result<T> {
 /// Representa un resultado fallido.
 @sealed
 class Failure<T> extends Result<T> {
-  /// El fallo que causó el resultado fallido.
-  final DsFailure failure;
 
   /// Crea un resultado fallido con el [failure] proporcionado.
   const Failure(this.failure);
+  /// El fallo que causó el resultado fallido.
+  final DsFailure failure;
 
   @override
   bool operator ==(Object other) =>
@@ -137,4 +138,5 @@ class Failure<T> extends Result<T> {
   @override
   String toString() => 'Failure($failure)';
 }
+
 

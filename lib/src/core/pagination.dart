@@ -7,8 +7,6 @@ import 'package:meta/meta.dart';
 /// interno es específico del backend utilizado.
 @immutable
 class PageCursor {
-  /// Valor opaco del cursor.
-  final String value;
 
   /// Crea un cursor con el [value] proporcionado.
   const PageCursor(this.value);
@@ -17,6 +15,8 @@ class PageCursor {
   factory PageCursor.fromMap(Map<String, dynamic> map) {
     return PageCursor(map['value'] as String);
   }
+  /// Valor opaco del cursor.
+  final String value;
 
   /// Convierte el cursor a un mapa de datos.
   Map<String, dynamic> toMap() {
@@ -41,23 +41,6 @@ class PageCursor {
 /// un cursor para navegar a la siguiente página.
 @immutable
 class Page<T> {
-  /// Elementos de la página actual.
-  final List<T> items;
-
-  /// Cursor para la siguiente página, null si no hay más páginas.
-  final PageCursor? nextCursor;
-
-  /// Cursor para la página anterior, null si es la primera página.
-  final PageCursor? previousCursor;
-
-  /// Indica si hay más páginas después de esta.
-  final bool hasNext;
-
-  /// Indica si hay páginas anteriores a esta.
-  final bool hasPrevious;
-
-  /// Tamaño total de elementos si está disponible.
-  final int? totalSize;
 
   /// Crea una página con los parámetros proporcionados.
   const Page({
@@ -79,13 +62,30 @@ class Page<T> {
         totalSize = 0;
 
   /// Crea una página única con todos los elementos.
-  Page.single(List<T> items)
+  const Page.single(List<T> items)
       : items = items,
         nextCursor = null,
         previousCursor = null,
         hasNext = false,
         hasPrevious = false,
         totalSize = items.length;
+  /// Elementos de la página actual.
+  final List<T> items;
+
+  /// Cursor para la siguiente página, null si no hay más páginas.
+  final PageCursor? nextCursor;
+
+  /// Cursor para la página anterior, null si es la primera página.
+  final PageCursor? previousCursor;
+
+  /// Indica si hay más páginas después de esta.
+  final bool hasNext;
+
+  /// Indica si hay páginas anteriores a esta.
+  final bool hasPrevious;
+
+  /// Tamaño total de elementos si está disponible.
+  final int? totalSize;
 
   /// Número de elementos en esta página.
   int get size => items.length;

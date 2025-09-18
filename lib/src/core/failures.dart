@@ -7,7 +7,15 @@ import 'package:meta/meta.dart';
 /// fallos que pueden ocurrir al interactuar con fuentes de datos,
 /// proporcionando información específica para cada tipo de error.
 @sealed
+@immutable
 abstract class DsFailure {
+
+  /// Crea una instancia de DsFailure.
+  const DsFailure({
+    required this.message,
+    this.cause,
+    this.stackTrace,
+  });
   /// Mensaje descriptivo del fallo.
   final String message;
 
@@ -16,12 +24,6 @@ abstract class DsFailure {
 
   /// Stack trace del fallo, si está disponible.
   final StackTrace? stackTrace;
-
-  const DsFailure({
-    required this.message,
-    this.cause,
-    this.stackTrace,
-  });
 
   @override
   bool operator ==(Object other) =>
@@ -38,11 +40,12 @@ abstract class DsFailure {
 /// Fallo de red o conectividad.
 @sealed
 class NetworkFailure extends DsFailure {
+  /// Crea una instancia de NetworkFailure.
   const NetworkFailure({
-    String message = 'Error de red',
+    super.message = 'Error de red',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'NetworkFailure: $message';
@@ -51,11 +54,12 @@ class NetworkFailure extends DsFailure {
 /// Fallo por timeout en la operación.
 @sealed
 class TimeoutFailure extends DsFailure {
+  /// Crea una instancia de TimeoutFailure.
   const TimeoutFailure({
-    String message = 'Tiempo de espera agotado',
+    super.message = 'Tiempo de espera agotado',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'TimeoutFailure: $message';
@@ -64,11 +68,12 @@ class TimeoutFailure extends DsFailure {
 /// Fallo por permisos insuficientes.
 @sealed
 class PermissionDeniedFailure extends DsFailure {
+  /// Crea una instancia de PermissionDeniedFailure.
   const PermissionDeniedFailure({
-    String message = 'Permisos insuficientes',
+    super.message = 'Permisos insuficientes',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'PermissionDeniedFailure: $message';
@@ -77,11 +82,12 @@ class PermissionDeniedFailure extends DsFailure {
 /// Fallo por recurso no encontrado.
 @sealed
 class NotFoundFailure extends DsFailure {
+  /// Crea una instancia de NotFoundFailure.
   const NotFoundFailure({
-    String message = 'Recurso no encontrado',
+    super.message = 'Recurso no encontrado',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'NotFoundFailure: $message';
@@ -90,11 +96,12 @@ class NotFoundFailure extends DsFailure {
 /// Fallo por conflicto en la operación.
 @sealed
 class ConflictFailure extends DsFailure {
+  /// Crea una instancia de ConflictFailure.
   const ConflictFailure({
-    String message = 'Conflicto en la operación',
+    super.message = 'Conflicto en la operación',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'ConflictFailure: $message';
@@ -103,11 +110,12 @@ class ConflictFailure extends DsFailure {
 /// Fallo en la serialización/deserialización de datos.
 @sealed
 class SerializationFailure extends DsFailure {
+  /// Crea una instancia de SerializationFailure.
   const SerializationFailure({
-    String message = 'Error de serialización',
+    super.message = 'Error de serialización',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'SerializationFailure: $message';
@@ -116,11 +124,12 @@ class SerializationFailure extends DsFailure {
 /// Fallo por operación cancelada.
 @sealed
 class CancelledFailure extends DsFailure {
+  /// Crea una instancia de CancelledFailure.
   const CancelledFailure({
-    String message = 'Operación cancelada',
+    super.message = 'Operación cancelada',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'CancelledFailure: $message';
@@ -129,12 +138,14 @@ class CancelledFailure extends DsFailure {
 /// Fallo genérico o desconocido.
 @sealed
 class UnknownFailure extends DsFailure {
+  /// Crea una instancia de UnknownFailure.
   const UnknownFailure({
-    String message = 'Error desconocido',
+    super.message = 'Error desconocido',
     super.cause,
     super.stackTrace,
-  }) : super(message: message);
+  });
 
   @override
   String toString() => 'UnknownFailure: $message';
 }
+
